@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { API_BASE_URL } from "../../config/api";
+import axiosInstance from "../../config/axios";
 
 const userSlice = createSlice({
   name: "user",
@@ -113,44 +112,38 @@ const userSlice = createSlice({
 export const login = (email, password) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
-    const { data } = await axios.post(
-      `${API_BASE_URL}/user/login`,
-      { email, password },
-      { withCredentials: true, headers: { "Content-Type": "application/json" } }
-    );
+    const { data } = await axiosInstance.post("/user/login", { email, password });
     dispatch(userSlice.actions.loginSuccess(data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.loginFailed(error.response.data.message));
+    dispatch(userSlice.actions.loginFailed(
+      error.response?.data?.message || "Login failed"
+    ));
   }
 };
 
 export const getUser = () => async (dispatch) => {
   dispatch(userSlice.actions.loadUserRequest());
   try {
-    const { data } = await axios.get(
-      `${API_BASE_URL}/user/me`,
-      {
-        withCredentials: true,
-      }
-    );
+    const { data } = await axiosInstance.get("/user/me");
     dispatch(userSlice.actions.loadUserSuccess(data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.loadUserFailed(error.response.data.message));
+    dispatch(userSlice.actions.loadUserFailed(
+      error.response?.data?.message || "Failed to load user"
+    ));
   }
 };
 
 export const logout = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(
-      `${API_BASE_URL}/user/logout`,
-      { withCredentials: true }
-    );
+    const { data } = await axiosInstance.get("/user/logout");
     dispatch(userSlice.actions.logoutSuccess(data.message));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.logoutFailed(error.response.data.message));
+    dispatch(userSlice.actions.logoutFailed(
+      error.response?.data?.message || "Logout failed"
+    ));
   }
 };
 
@@ -158,19 +151,18 @@ export const updatePassword =
   (currentPassword, newPassword, confirmNewPassword) => async (dispatch) => {
     dispatch(userSlice.actions.updatePasswordRequest());
     try {
-      const { data } = await axios.put(
-        `${API_BASE_URL}/user/password/update`,
-        { currentPassword, newPassword, confirmNewPassword },
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const { data } = await axiosInstance.put("/user/password/update", {
+        currentPassword,
+        newPassword,
+        confirmNewPassword,
+      });
       dispatch(userSlice.actions.updatePasswordSuccess(data.message));
       dispatch(userSlice.actions.clearAllErrors());
     } catch (error) {
       dispatch(
-        userSlice.actions.updatePasswordFailed(error.response.data.message)
+        userSlice.actions.updatePasswordFailed(
+          error.response?.data?.message || "Password update failed"
+        )
       );
     }
   };
@@ -178,19 +170,16 @@ export const updatePassword =
 export const updateProfile = (data) => async (dispatch) => {
   dispatch(userSlice.actions.updateProfileRequest());
   try {
-    const response = await axios.put(
-      `${API_BASE_URL}/user/me/profile/update`,
-      data,
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
+    const response = await axiosInstance.put("/user/me/profile/update", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     dispatch(userSlice.actions.updateProfileSuccess(response.data.message));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
     dispatch(
-      userSlice.actions.updateProfileFailed(error.response.data.message)
+      userSlice.actions.updateProfileFailed(
+        error.response?.data?.message || "Profile update failed"
+      )
     );
   }
 };
