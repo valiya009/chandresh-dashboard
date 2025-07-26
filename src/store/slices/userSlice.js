@@ -113,7 +113,7 @@ export const login = (email, password) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
     const { data } = await axios.post(
-      "https://portfolio-backend-uzey.onrender.com/api/v1/user/login",
+      "https://portfolio-backend-uzey.onrender.com/api/v1/auth/login",
       { email, password },
       { withCredentials: true, headers: { "Content-Type": "application/json" } }
     );
