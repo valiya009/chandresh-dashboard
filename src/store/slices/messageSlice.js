@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_BASE_URL } from "../../config/api";
 
 const messageSlice = createSlice({
   name: "messages",
@@ -56,7 +57,7 @@ export const getAllMessages = () => async (dispatch) => {
   dispatch(messageSlice.actions.getAllMessagesRequest());
   try {
     const response = await axios.get(
-      "https://portfolio-backend-uzey.onrender.com/api/v1/message/getall",
+      `${API_BASE_URL}/message/getall`,
       { withCredentials: true }
     );
     dispatch(
@@ -76,7 +77,7 @@ export const deleteMessage = (id) => async (dispatch) => {
   dispatch(messageSlice.actions.deleteMessageRequest());
   try {
     const response = await axios.delete(
-      `https://portfolio-backend-uzey.onrender.com/api/v1/message/delete/${id}`,
+      `${API_BASE_URL}/message/delete/${id}`,
       {
         withCredentials: true,
       }
