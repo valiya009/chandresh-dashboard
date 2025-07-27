@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import SpecialLoadingButton from "./sub-components/SpecialLoadingButton";
 import {
-  clearAllProjectErrors,
   getAllProjects,
   resetProjectSlice,
   updateProject,
@@ -49,9 +48,12 @@ const UpdateProject = () => {
   useEffect(() => {
     const getProject = async () => {
       await axios
-        .get(`https://mern-stack-portfolio-backend-code.onrender.com/api/v1/project/get/${id}`, {
-          withCredentials: true,
-        })
+        .get(
+          `https://mern-stack-portfolio-backend-code.onrender.com/api/v1/project/get/${id}`,
+          {
+            withCredentials: true,
+          }
+        )
         .then((res) => {
           setTitle(res.data.project.title);
           setDescription(res.data.project.description);
@@ -108,8 +110,7 @@ const UpdateProject = () => {
       <div className="flex mt-7 justify-center items-center min-h-[100vh] sm:gap-4 sm:py-4">
         <form
           onSubmit={handleUpdateProject}
-          className="w-[100%] px-5 md:w-[1000px] pb-5"
-        >
+          className="w-[100%] px-5 md:w-[1000px] pb-5">
           <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
               <div className="flex flex-col gap-2 items-start justify-between sm:items-center sm:flex-row">
@@ -193,8 +194,7 @@ const UpdateProject = () => {
                         value={stack}
                         onValueChange={(selectedValue) =>
                           setStack(selectedValue)
-                        }
-                      >
+                        }>
                         <SelectTrigger>
                           <SelectValue placeholder="Select Project Stack" />
                         </SelectTrigger>
@@ -219,8 +219,7 @@ const UpdateProject = () => {
                         value={deployed}
                         onValueChange={(selectedValue) =>
                           setDeployed(selectedValue)
-                        }
-                      >
+                        }>
                         <SelectTrigger>
                           <SelectValue placeholder="Is this project deployed?" />
                         </SelectTrigger>
@@ -277,8 +276,7 @@ const UpdateProject = () => {
             ) : (
               <button
                 type="submit"
-                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 w-52"
-              >
+                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 w-52">
                 Update
               </button>
             )}

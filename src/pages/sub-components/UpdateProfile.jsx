@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  clearAllUserErrors,
-  getUser,
-  resetProfile,
-  updateProfile,
-} from "@/store/slices/userSlice";
+import { getUser, resetProfile, updateProfile } from "@/store/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Textarea } from "@/components/ui/textarea";
@@ -89,7 +84,6 @@ const UpdateProfile = () => {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(clearAllUserErrors());
     }
     if (isUpdated) {
       dispatch(getUser());
@@ -132,8 +126,7 @@ const UpdateProfile = () => {
                   <Label>Resume</Label>
                   <Link
                     to={user && user.resume && user.resume.url}
-                    target="_blank"
-                  >
+                    target="_blank">
                     <img
                       src={resumePreview ? resumePreview : "/avatarHolder.jpg"}
                       alt="avatar"
@@ -242,8 +235,7 @@ const UpdateProfile = () => {
               {!loading ? (
                 <Button
                   onClick={() => handleUpdateProfile()}
-                  className="w-full"
-                >
+                  className="w-full">
                   Update Profile
                 </Button>
               ) : (

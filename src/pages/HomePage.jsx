@@ -43,7 +43,6 @@ const HomePage = () => {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(clearAllUserErrors());
     }
     if (!isAuthenticated) {
       navigateTo("/login");
@@ -66,8 +65,7 @@ const HomePage = () => {
                       ? "text-accent-foreground bg-accent"
                       : "text-muted-foreground"
                   }  transition-colors hover:text-foreground md:h-8 md:w-8`}
-                  onClick={() => setActive("Dashboard")}
-                >
+                  onClick={() => setActive("Dashboard")}>
                   <Home className="h-5 w-5" />
                   <span className="sr-only">Dashboard</span>
                 </Link>
@@ -85,8 +83,7 @@ const HomePage = () => {
                       ? "text-accent-foreground bg-accent"
                       : "text-muted-foreground"
                   }  transition-colors hover:text-foreground md:h-8 md:w-8`}
-                  onClick={() => setActive("Add Project")}
-                >
+                  onClick={() => setActive("Add Project")}>
                   <FolderGit className="h-5 w-5" />
                   <span className="sr-only">Add Project</span>
                 </Link>
@@ -104,8 +101,7 @@ const HomePage = () => {
                       ? "text-accent-foreground bg-accent"
                       : "text-muted-foreground"
                   }  transition-colors hover:text-foreground md:h-8 md:w-8`}
-                  onClick={() => setActive("Add Skill")}
-                >
+                  onClick={() => setActive("Add Skill")}>
                   <PencilRuler className="h-5 w-5" />
                   <span className="sr-only">Add Skill</span>
                 </Link>
@@ -123,8 +119,7 @@ const HomePage = () => {
                       ? "text-accent-foreground bg-accent"
                       : "text-muted-foreground"
                   }  transition-colors hover:text-foreground md:h-8 md:w-8`}
-                  onClick={() => setActive("Add Uses")}
-                >
+                  onClick={() => setActive("Add Uses")}>
                   <LayoutGrid className="h-5 w-5" />
                   <span className="sr-only">Add Uses</span>
                 </Link>
@@ -141,8 +136,7 @@ const HomePage = () => {
                       ? "text-accent-foreground bg-accent"
                       : "text-muted-foreground"
                   }  transition-colors hover:text-foreground md:h-8 md:w-8`}
-                  onClick={() => setActive("Add Timeline")}
-                >
+                  onClick={() => setActive("Add Timeline")}>
                   <History className="h-5 w-5" />
                   <span className="sr-only">Add Timeline</span>
                 </Link>
@@ -159,8 +153,7 @@ const HomePage = () => {
                       ? "text-accent-foreground bg-accent"
                       : "text-muted-foreground"
                   }  transition-colors hover:text-foreground md:h-8 md:w-8`}
-                  onClick={() => setActive("Messages")}
-                >
+                  onClick={() => setActive("Messages")}>
                   <MessageSquareMore className="h-5 w-5" />
                   <span className="sr-only">Messages</span>
                 </Link>
@@ -177,8 +170,7 @@ const HomePage = () => {
                       ? "text-accent-foreground bg-accent"
                       : "text-muted-foreground"
                   }  transition-colors hover:text-foreground md:h-8 md:w-8`}
-                  onClick={() => setActive("Account")}
-                >
+                  onClick={() => setActive("Account")}>
                   <User className="h-5 w-5" />
                   <span className="sr-only">Account</span>
                 </Link>
@@ -193,8 +185,7 @@ const HomePage = () => {
               <TooltipTrigger asChild>
                 <Link
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  onClick={handleLogout}
-                >
+                  onClick={handleLogout}>
                   <LogOut className="h-5 w-5" />
                   <span className="sr-only">Logout</span>
                 </Link>
@@ -215,8 +206,7 @@ const HomePage = () => {
           <SheetContent side="left" className="sm:max-w-xs">
             <nav className="grid gap-6 text-lg font-medium">
               <Link
-                className={`group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base`}
-              >
+                className={`group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base`}>
                 <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
                 <span className="sr-only">Acme Inc</span>
               </Link>
@@ -227,8 +217,7 @@ const HomePage = () => {
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground "
                 }`}
-                onClick={() => setActive("Dashboard")}
-              >
+                onClick={() => setActive("Dashboard")}>
                 <Home className="h-5 w-5" />
                 Dashboard
               </Link>
@@ -238,8 +227,7 @@ const HomePage = () => {
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground "
                 }`}
-                onClick={() => setActive("Add Project")}
-              >
+                onClick={() => setActive("Add Project")}>
                 <FolderGit className="h-5 w-5" />
                 Add Project
               </Link>
@@ -249,8 +237,7 @@ const HomePage = () => {
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground "
                 }`}
-                onClick={() => setActive("Add Skill")}
-              >
+                onClick={() => setActive("Add Skill")}>
                 <PencilRuler className="h-5 w-5" />
                 Add Skill
               </Link>
@@ -260,8 +247,7 @@ const HomePage = () => {
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground "
                 }`}
-                onClick={() => setActive("Add Uses")}
-              >
+                onClick={() => setActive("Add Uses")}>
                 <LayoutGrid className="h-5 w-5" />
                 Add Uses
               </Link>
@@ -271,8 +257,7 @@ const HomePage = () => {
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground "
                 }`}
-                onClick={() => setActive("Account")}
-              >
+                onClick={() => setActive("Account")}>
                 <User className="h-5 w-5" />
                 Account
               </Link>
@@ -282,8 +267,7 @@ const HomePage = () => {
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground "
                 }`}
-                onClick={() => setActive("Timeline")}
-              >
+                onClick={() => setActive("Timeline")}>
                 <History className="h-5 w-5" />
                 Timeline
               </Link>
@@ -293,8 +277,7 @@ const HomePage = () => {
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground "
                 }`}
-                onClick={() => setActive("Messages")}
-              >
+                onClick={() => setActive("Messages")}>
                 <MessageSquareMore className="h-5 w-5" />
                 Messages
               </Link>
@@ -302,8 +285,7 @@ const HomePage = () => {
                 className={
                   "flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 }
-                onClick={handleLogout}
-              >
+                onClick={handleLogout}>
                 <LogOut className="h-5 w-5" />
                 Logout
               </Link>

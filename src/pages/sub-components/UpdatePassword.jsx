@@ -4,11 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import {
-  clearAllUserErrors,
-  resetProfile,
-  updatePassword,
-} from "@/store/slices/userSlice";
+import { resetProfile, updatePassword } from "@/store/slices/userSlice";
 import SpecialLoadingButton from "./SpecialLoadingButton";
 
 const Profile = () => {
@@ -27,7 +23,6 @@ const Profile = () => {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(clearAllUserErrors());
     }
     if (isUpdated) {
       dispatch(resetProfile());
@@ -75,8 +70,7 @@ const Profile = () => {
               {!loading ? (
                 <Button
                   onClick={() => handleUpdatePassword()}
-                  className="w-full"
-                >
+                  className="w-full">
                   Update Password
                 </Button>
               ) : (

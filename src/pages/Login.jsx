@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { clearAllUserErrors, login } from "@/store/slices/userSlice";
+import { login } from "@/store/slices/userSlice";
 import { toast } from "react-toastify";
 import SpecialLoadingButton from "./sub-components/SpecialLoadingButton";
 
@@ -24,7 +24,6 @@ const Login = () => {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(clearAllUserErrors());
     }
     if (isAuthenticated) {
       navigateTo("/");
@@ -58,8 +57,7 @@ const Login = () => {
                 <Label>Password</Label>
                 <Link
                   to="/password/forgot"
-                  className="ml-auto inline-block text-sm underline"
-                >
+                  className="ml-auto inline-block text-sm underline">
                   Forgot your password?
                 </Link>
               </div>
@@ -74,8 +72,7 @@ const Login = () => {
             ) : (
               <Button
                 onClick={() => handleLogin(email, password)}
-                className="w-full"
-              >
+                className="w-full">
                 Login
               </Button>
             )}

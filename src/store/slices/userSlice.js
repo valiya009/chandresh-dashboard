@@ -5,8 +5,8 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     loading: false,
-    user: {},
-    isAuthenticated: false,
+    user: JSON.parse(localStorage.getItem("user")) || {},
+    isAuthenticated: !!localStorage.getItem("token"),
     error: null,
     message: null,
     isUpdated: false,
@@ -21,8 +21,10 @@ const userSlice = createSlice({
     loginSuccess(state, action) {
       state.loading = false;
       state.isAuthenticated = true;
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.error = null;
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
     loginFailed(state, action) {
       state.loading = false;
@@ -36,6 +38,8 @@ const userSlice = createSlice({
       state.user = {};
       state.error = null;
       state.message = action.payload;
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
     logoutFailed(state, action) {
       state.loading = false;
@@ -45,8 +49,6 @@ const userSlice = createSlice({
     },
     loadUserRequest(state, action) {
       state.loading = true;
-      state.isAuthenticated = false;
-      state.user = {};
       state.error = null;
     },
     loadUserSuccess(state, action) {
@@ -54,6 +56,7 @@ const userSlice = createSlice({
       state.isAuthenticated = true;
       state.user = action.payload;
       state.error = null;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     loadUserFailed(state, action) {
       state.loading = false;
@@ -112,30 +115,42 @@ const userSlice = createSlice({
 export const login = (email, password) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
-    const { data } = await axiosInstance.post("/user/login", { email, password });
-    dispatch(userSlice.actions.loginSuccess(data.user));
+    const { data } = await axiosInstance.post("/user/login", {
+      email,
+      password,
+    });
+    dispatch(userSlice.actions.loginSuccess(data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.loginFailed(
-      error.response?.data?.message || "Login failed"
-    ));
+    dispatch(
+      userSlice.actions.loginFailed(
+        error.response?.data?.message || "Login failed"
+      )
+    );
   }
 };
 
 export const getUser = () => async (dispatch) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return;
+  }
   dispatch(userSlice.actions.loadUserRequest());
   try {
     const { data } = await axiosInstance.get("/user/me");
     dispatch(userSlice.actions.loadUserSuccess(data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    // Don't treat 400/401 as errors for initial load - user just isn't logged in
-    if (error.response?.status === 400 || error.response?.status === 401) {
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       dispatch(userSlice.actions.loadUserFailed(null));
     } else {
-      dispatch(userSlice.actions.loadUserFailed(
-        error.response?.data?.message || "Failed to load user"
-      ));
+      dispatch(
+        userSlice.actions.loadUserFailed(
+          error.response?.data?.message || "Failed to load user"
+        )
+      );
     }
   }
 };
@@ -146,9 +161,11 @@ export const logout = () => async (dispatch) => {
     dispatch(userSlice.actions.logoutSuccess(data.message));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.logoutFailed(
-      error.response?.data?.message || "Logout failed"
-    ));
+    dispatch(
+      userSlice.actions.logoutFailed(
+        error.response?.data?.message || "Logout failed"
+      )
+    );
   }
 };
 
@@ -190,9 +207,6 @@ export const updateProfile = (data) => async (dispatch) => {
 };
 export const resetProfile = () => (dispatch) => {
   dispatch(userSlice.actions.updateProfileResetAfterUpdate());
-};
-export const clearAllUserErrors = () => (dispatch) => {
-  dispatch(userSlice.actions.clearAllErrors());
 };
 
 export default userSlice.reducer;

@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { clearAllUserErrors } from "@/store/slices/userSlice";
 import { forgotPassword } from "@/store/slices/forgotResetPasswordSlice";
 import { toast } from "react-toastify";
 import SpecialLoadingButton from "./sub-components/SpecialLoadingButton";
@@ -25,7 +24,6 @@ const ForgotPassword = () => {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(clearAllUserErrors());
     }
     if (isAuthenticated) {
       navigateTo("/");
@@ -61,8 +59,7 @@ const ForgotPassword = () => {
               <div className="flex items-center">
                 <Link
                   to="/login"
-                  className="ml-auto inline-block text-sm underline"
-                >
+                  className="ml-auto inline-block text-sm underline">
                   Remember your password?
                 </Link>
               </div>
@@ -70,8 +67,7 @@ const ForgotPassword = () => {
             {!loading ? (
               <Button
                 onClick={() => handleForgotPassword(email)}
-                className="w-full"
-              >
+                className="w-full">
                 Forgot Password
               </Button>
             ) : (
