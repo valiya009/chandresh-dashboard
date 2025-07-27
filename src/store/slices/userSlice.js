@@ -129,9 +129,14 @@ export const getUser = () => async (dispatch) => {
     dispatch(userSlice.actions.loadUserSuccess(data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.loadUserFailed(
-      error.response?.data?.message || "Failed to load user"
-    ));
+    // Don't treat 400/401 as errors for initial load - user just isn't logged in
+    if (error.response?.status === 400 || error.response?.status === 401) {
+      dispatch(userSlice.actions.loadUserFailed(null));
+    } else {
+      dispatch(userSlice.actions.loadUserFailed(
+        error.response?.data?.message || "Failed to load user"
+      ));
+    }
   }
 };
 
