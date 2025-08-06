@@ -189,12 +189,19 @@ export const updatePassword =
     }
   };
 
-export const updateProfile = (data) => async (dispatch) => {
+export const updateProfile = (data) => async (dispatch, getState) => {
   dispatch(userSlice.actions.updateProfileRequest());
+
   try {
+    const token = getState().auth?.token || localStorage.getItem("token");
+
     const response = await axiosInstance.put("/user/me/profile/update", data, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`, // ✅ send the token!
+      },
     });
+
     dispatch(userSlice.actions.updateProfileSuccess(response.data.message));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
@@ -205,6 +212,7 @@ export const updateProfile = (data) => async (dispatch) => {
     );
   }
 };
+
 export const resetProfile = () => (dispatch) => {
   dispatch(userSlice.actions.updateProfileResetAfterUpdate());
 };
